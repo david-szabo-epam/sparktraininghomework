@@ -4,6 +4,7 @@ import com.epam.hubd.spark.scala.core.util.RddComparator
 import com.epam.training.spark.core.domain.Climate
 import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest.{BeforeAndAfterAll, FunSpec}
+import org.scalactic.Tolerance._
 
 class HomeworkSpec extends FunSpec with BeforeAndAfterAll {
 
@@ -83,7 +84,7 @@ class HomeworkSpec extends FunSpec with BeforeAndAfterAll {
       it("it should return a temperature based on all observed dates including previous and next days") {
         val actual = Homework.predictTemperature(sc.parallelize(CLIMATE_DATA), 1, 2)
         val expected = -4.377777777777776
-        assert(actual === expected)
+        assert(actual === expected +- 0.000000000000001)
       }
     }
   }
