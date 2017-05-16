@@ -79,10 +79,11 @@ object Homework {
   }
 
   def predictTemperature(climateData: RDD[Climate], month: Int, dayOfMonth: Int): Double = {
-    val (sumTemprates, numMeasurements) = climateData.filter(isTemperateValid)
+    climateData.filter(isTemperateValid)
       .filter(climate => isOnSameOrAdjacentCalendarDate(climate.observationDate, month, dayOfMonth))
-      .map(climate => (climate.meanTemperature.value, 1d)).reduce((a,b) => (a._1 + b._1 , a._2 + b._2))
-    sumTemprates / numMeasurements
+      .map(climate => climate.meanTemperature.value)
+      .mean
+
   }
 
   private def isTemperateValid(climate: Climate) = {
